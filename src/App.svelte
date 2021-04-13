@@ -3,19 +3,13 @@ import { assign } from "svelte/internal";
 
 	import Alerter from "./Alerter.svelte";
 	import wasm from './fetch/Cargo.toml';
-
-	const test = async () => {
-		let compiled = await wasm();
-		let json = await compiled.run();
-		console.log(json);
-	}
-
-	test();
+import JokeGenerator from "./JokeGenerator.svelte";
 
 	export let name;
 </script>
 
 <Alerter />
+<JokeGenerator />
 
 <main>
 	<h1>Hello {name}!</h1>
