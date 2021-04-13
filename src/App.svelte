@@ -1,38 +1,63 @@
 <script>
-	import Alerter from "./Alerter.svelte";
 	import DogGenerator from "./DogGenerator.svelte";
-	import GameOfLifeText from "./GameOfLifeText.svelte";
+	import GameOfLifeText from './GameOfLifeText.svelte';
+	import MainPage from './MainPage.svelte';
 
-	export let name;
+	let component = MainPage;
+
+	const hashMap = {
+		'#dogs': DogGenerator,
+		'#gameoflife': GameOfLifeText
+	}
+
+	function hashChange() {
+		console.log("Changing page to", location.hash);
+		component = hashMap[location.hash] || MainPage;
+	}
 </script>
 
-<Alerter />
-<DogGenerator />
-<GameOfLifeText />
+<svelte:window on:hashchange={hashChange} />
+
+<nav>
+	<a href="/" class:active={component === MainPage}>Home</a>
+	<a href="/#dogs" class:active={component === DogGenerator}>Dog Generator</a>
+	<a href="/#gameoflife" class:active={component === GameOfLifeText}>Game of Life</a>
+</nav>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	<svelte:component this={component} />
 </main>
 
 <style>
+	:root {
+	  --space: 0.5rem;
+	}
+   
+	a {
+	  background-color: white;
+	  border-radius: var(--space);
+	  margin-right: var(--space);
+	  padding: var(--space);
+	  text-decoration: none;
+	}
+   
+	a.active {
+	  background-color: yellow;
+	}
+   
+	.icon {
+	  padding-bottom: 6px;
+	  padding-top: 6px;
+	}
+   
 	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+	  padding: var(--space);
 	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+   
+	nav {
+	  display: flex;
+	  align-items: center;
+	  background-color: cornflowerblue;
+	  padding: var(--space);
 	}
 </style>
