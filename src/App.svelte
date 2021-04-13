@@ -1,15 +1,12 @@
 <script>
-import { assign } from "svelte/internal";
-
 	import Alerter from "./Alerter.svelte";
-	import wasm from './fetch/Cargo.toml';
-import JokeGenerator from "./JokeGenerator.svelte";
+	import DogGenerator from "./DogGenerator.svelte";
 
 	export let name;
 </script>
 
 <Alerter />
-<JokeGenerator />
+<DogGenerator />
 
 <main>
 	<h1>Hello {name}!</h1>
