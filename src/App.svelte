@@ -1,5 +1,16 @@
 <script>
-import Alerter from "./Alerter.svelte";
+import { assign } from "svelte/internal";
+
+	import Alerter from "./Alerter.svelte";
+	import wasm from './fetch/Cargo.toml';
+
+	const test = async () => {
+		let compiled = await wasm();
+		let json = await compiled.run();
+		console.log(json);
+	}
+
+	test();
 
 	export let name;
 </script>
