@@ -1,6 +1,8 @@
 extern crate web_sys;
 use web_sys::console;
 
+extern crate js_sys;
+
 mod utils;
 
 use std::fmt;
@@ -73,18 +75,16 @@ pub struct Universe {
 
 #[wasm_bindgen]
 impl Universe {
-	pub fn new() -> Universe {
+	pub fn new(width: u32, height: u32) -> Universe {
 		utils::set_panic_hook();
-		let width = 64;
-		let height = 64;
 
 		let cells = (0..width * height)
-			.map(|i| {
-				if i % 2 == 0 || i % 7 == 0 {
-					Cell::Alive
-				} else {
-					Cell::Dead
-				}
+			.map(|_i| {
+				if js_sys::Math::random() < 0.5 {
+                    Cell::Alive
+                } else {
+                    Cell::Dead
+                }
 			}).collect();
 
 		Universe {
