@@ -3,9 +3,16 @@ use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 use wasm_bindgen_futures::JsFuture;
 use web_sys::{Request, RequestInit, RequestMode, Response};
+use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 extern crate web_sys;
 mod utils;
+
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_namespace = console)]
+    fn log(a: &str);
+}
 
 macro_rules! log {
     ( $( $t:tt)* ) => {
@@ -52,3 +59,26 @@ pub async fn run(breed: String, number: u8) -> Result<JsValue, JsValue> {
         }
     }
 }
+
+#[wasm_bindgen(start)]
+pub fn performance_timing() {
+    let window = web_sys::window().expect("should have a window in this context");
+    let performance = window
+        .performance()
+        .expect("performance should be available");
+
+    log!("the current time (in ms) is {}", performance.now());
+
+    let start = perf_to_system(performance.timing().request_start());
+    let end = perf_to_system(performance.timing().response_end());
+
+    log!("request started at {}", humantime::format_rfc3339(start));
+    log!("request ended at {}", humantime::format_rfc3339(end));
+}
+
+fn perf_to_system(amt: f64) -> SystemTime {
+    let secs = (amt as u64) / 1_000;
+    let nanos = ((amt as u32) % 1_000) * 1_000_000;
+    UNIX_EPOCH + Duration::new(secs, nanos)
+}
+

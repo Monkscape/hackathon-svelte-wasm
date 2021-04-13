@@ -13,6 +13,7 @@ js-sys = "0.3.50"
 wasm-bindgen-futures = "0.4.23"
 serde = { version = "1.0.80", features = ["derive"] }
 serde_derive = "^1.0.59"
+humantime = "2"
 
 [dependencies.web-sys]
 version = "0.3.4"
@@ -22,6 +23,8 @@ features = [
   'RequestInit',
   'RequestMode',
   'Response',
+  'Performance',
+  'PerformanceTiming',
   'Window',
   'console',
 ]
