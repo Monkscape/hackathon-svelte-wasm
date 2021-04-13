@@ -20,20 +20,44 @@ macro_rules! log {
     }
 }
 
+#[wasm_bindgen]
+pub struct DogRequest {
+    breed: String,
+    number: u8
+}
+
+#[wasm_bindgen]
+impl DogRequest {
+    pub fn new(breed: String, number: u8) -> DogRequest {
+        DogRequest {
+            breed,
+            number
+        }
+    }
+
+    pub fn get_breed(&self) -> String {
+        self.breed.clone()
+    }
+
+    pub fn get_number(&self) -> u8 {
+        self.number
+    }
+}
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DogResponse {
     pub message: Vec<String>,
 }
 
 #[wasm_bindgen]
-pub async fn run(breed: String, number: u8) -> Result<JsValue, JsValue> {
+pub async fn run(request: DogRequest) -> Result<JsValue, JsValue> {
     utils::set_panic_hook();
 
     let mut opts = RequestInit::new();
     opts.method("GET");
     opts.mode(RequestMode::Cors);
 
-    let url = format!("https://dog.ceo/api/breed/{}/images/random/{}", breed, number);
+    let url = format!("https://dog.ceo/api/breed/{}/images/random/{}", request.get_breed(), request.get_number());
     log!("Hitting endpoint {}", url);
 
     let request = Request::new_with_str_and_init(&url, &opts)?;

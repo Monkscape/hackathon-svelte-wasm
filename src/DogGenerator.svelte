@@ -15,8 +15,10 @@
     })
 
     const getDogs = async () => {
-        console.log(breed);
-        let res = await wasmCompilation.run(breed.toLowerCase(), number);
+        let breedRequest = breed.toLowerCase().replace(/\s+/g, '');
+        console.log(wasmCompilation);
+        let request = wasmCompilation.DogRequest.new(breedRequest, number);
+        let res = await wasmCompilation.run(request);
         console.log('res', res);
         images = res.message;
         if (!images.length) {
@@ -61,13 +63,12 @@
 <style>
     img {
         width:inherit;
+        height: inherit;
     }
 
     .dog {
-        width: 120px;
-        height: 120px;
-        width: fit-content;
-        height: fit-content;
+        width: 240px;
+        height: 240px;
     }
 
     .horizontal {

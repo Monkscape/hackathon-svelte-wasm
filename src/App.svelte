@@ -1,12 +1,14 @@
 <script>
 	import Alerter from "./Alerter.svelte";
 	import DogGenerator from "./DogGenerator.svelte";
+	import GameOfLifeText from "./GameOfLifeText.svelte";
 
 	export let name;
 </script>
 
 <Alerter />
 <DogGenerator />
+<GameOfLifeText />
 
 <main>
 	<h1>Hello {name}!</h1>
