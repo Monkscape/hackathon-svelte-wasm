@@ -1,15 +1,31 @@
 <script>
 import { onMount } from 'svelte';
+    import wasm from './alert/Cargo.toml';
 
     let pre;
     let play_pause;
-    import wasm from './alert/Cargo.toml';
 
+    let wasmCompilation;
     let universe;
+    let width = 64;
+    let height = 64;
 
     let animationId = null;
 
+    const resetUniverse = () => {
+        universe = null;
+        createUniverse();
+        pre.textContent = universe.render();
+    }
+
+    const createUniverse = () => {
+        if (!universe) {
+            universe = wasmCompilation.Universe.new(width, height);
+        }
+    }
+
     const play = () => {
+        createUniverse();
         play_pause.textContent = "Pause";
         renderLoop();
     };
@@ -33,12 +49,10 @@ import { onMount } from 'svelte';
     };
 
     onMount(async () => {
-        let wasmCompilation = await wasm();
-        universe = wasmCompilation.Universe.new();
+        wasmCompilation = await wasm();
     })
 
     const renderLoop = () => {
-        console.log(universe);
         pre.textContent = universe.render();
         universe.tick();
 
@@ -47,5 +61,14 @@ import { onMount } from 'svelte';
 
 </script>
 
+<label>
+    Width:
+    <input type='number' bind:value={width}>
+</label>
+<label>
+    Height:
+    <input type='number' bind:value={height}>
+</label>
 <button bind:this={play_pause} on:click={pauseOrPlay}>Play</button>
+<button disabled={animationId} on:click={resetUniverse}>Reset</button>
 <pre bind:this={pre}></pre>
