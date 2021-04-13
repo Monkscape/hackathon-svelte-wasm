@@ -2,9 +2,35 @@
 import { onMount } from 'svelte';
 
     let pre;
+    let play_pause;
     import wasm from './alert/Cargo.toml';
 
     let universe;
+
+    let animationId = null;
+
+    const play = () => {
+        play_pause.textContent = "Pause";
+        renderLoop();
+    };
+
+    const pause = () => {
+        play_pause.textContent = "Play";
+        cancelAnimationFrame(animationId);
+        animationId = null;
+    };
+
+    const isPaused = () => {
+        return animationId === null;
+    };
+
+    const pauseOrPlay = () => {
+        if (isPaused()) {
+            play();
+        } else {
+            pause();
+        }
+    };
 
     onMount(async () => {
         let wasmCompilation = await wasm();
@@ -16,9 +42,10 @@ import { onMount } from 'svelte';
         pre.textContent = universe.render();
         universe.tick();
 
-        requestAnimationFrame(renderLoop);
+        animationId = requestAnimationFrame(renderLoop);
     }
+
 </script>
 
+<button bind:this={play_pause} on:click={pauseOrPlay}>Play</button>
 <pre bind:this={pre}></pre>
-<button on:click={renderLoop}>Start Game!</button>
