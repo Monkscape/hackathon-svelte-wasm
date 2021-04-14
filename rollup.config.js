@@ -60,11 +60,11 @@ export default {
 			dedupe: ['svelte']
 		}),
 		commonjs(),
-		rust({
-			verbose: true,
-			nodejs: false,
-			inlineWasm: true
-		}),
+		// rust({
+		// 	verbose: true,
+		// 	nodejs: false,
+		// 	inlineWasm: true
+		// }),
 		wasm(),
 		copy({
 			targets: [

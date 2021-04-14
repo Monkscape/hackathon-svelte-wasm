@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import { flip } from 'svelte/animate';
-    import wasm from './fetch/Cargo.toml';
+    import {default as wasm, DogRequest, run } from 'wasm-fetch';
 
     let images = [];
     let wasmCompilation;
@@ -29,14 +29,12 @@
             dogs.forEach(element => {
                 images = [element, ...images];
             });
-            // images.push(...response);
-            // images = [...response, ...images];
         }
     }
 
     const fetchDogs = async (breedRequest, number) => {
-        let request = wasmCompilation.DogRequest.new(breedRequest, number);
-        let response = await wasmCompilation.run(request);
+        let request = DogRequest.new(breedRequest, number);
+        let response = await run(request);
         return response.message;
     }
 
