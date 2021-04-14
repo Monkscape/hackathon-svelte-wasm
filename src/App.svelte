@@ -3,7 +3,7 @@
 	import GameOfLifeText from './GameOfLifeText.svelte';
 	import MainPage from './MainPage.svelte';
 
-	let component = MainPage;
+	let component;
 
 	const hashMap = {
 		'#dogs': DogGenerator,
@@ -14,6 +14,9 @@
 		console.log("Changing page to", location.hash);
 		component = hashMap[location.hash] || MainPage;
 	}
+
+	hashChange();
+	
 </script>
 
 <svelte:window on:hashchange={hashChange} />

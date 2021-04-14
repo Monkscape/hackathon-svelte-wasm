@@ -5,6 +5,8 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
 import rust from "@wasm-tool/rollup-plugin-rust";
+import { wasm } from '@rollup/plugin-wasm';
+import copy from 'rollup-plugin-copy';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -62,6 +64,12 @@ export default {
 			verbose: true,
 			nodejs: false,
 			inlineWasm: true
+		}),
+		wasm(),
+		copy({
+			targets: [
+				{ src: "src/**/pkg/*.wasm", dest: "public/build/"}
+			]
 		}),
 
 		// In dev mode, call `npm run start` once
