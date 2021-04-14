@@ -15,6 +15,7 @@
     let universe;
     let width = 64;
     let height = 64;
+    let randomnessFactor = 50;
 
     let canvas;
     let memory;
@@ -71,7 +72,7 @@
 
     const createUniverse = () => {
         if (!universe) {
-            universe = Universe.new(width, height);
+            universe = Universe.new(width, height, 1 - (randomnessFactor / 100));
         }
     }
 
@@ -201,6 +202,10 @@
 <label>
     Height:
     <input type='number' bind:value={height}>
+</label>
+<label>
+    Generation Percent {randomnessFactor}%
+    <input type='range' min={1} max={100} bind:value={randomnessFactor}>
 </label>
 <button bind:this={play_pause} on:click={pauseOrPlay}>Play</button>
 <button on:click={resetUniverse}>Reset</button>

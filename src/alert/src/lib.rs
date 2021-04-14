@@ -75,12 +75,12 @@ pub struct Universe {
 
 #[wasm_bindgen]
 impl Universe {
-	pub fn new(width: u32, height: u32) -> Universe {
+	pub fn new(width: u32, height: u32, random_percent: f64) -> Universe {
 		utils::set_panic_hook();
 
 		let cells = (0..width * height)
 			.map(|_i| {
-				if js_sys::Math::random() < 0.5 {
+				if js_sys::Math::random() < random_percent {
                     Cell::Alive
                 } else {
                     Cell::Dead
