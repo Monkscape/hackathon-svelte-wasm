@@ -26,9 +26,8 @@
             console.log(images.length);
         } else {
             let dogs = await fetchDogs(breedRequest, -difference);
-            dogs.forEach(element => {
-                images = [element, ...images];
-            });
+            images.unshift(...dogs);
+            images = images;
         }
     }
 
@@ -39,7 +38,6 @@
     }
 
     const getNewDogArray = async () => {
-        console.log("getNewDogArray");
         let breedRequest = breed.toLowerCase().replace(/\s+/g, '');
         let response = await fetchDogs(breedRequest, number);
         console.log(response);
