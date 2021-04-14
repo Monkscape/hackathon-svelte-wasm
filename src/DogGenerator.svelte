@@ -21,9 +21,7 @@
         let breedRequest = breed.toLowerCase().replace(/\s+/g, '');
         
         if (difference > 0) {
-            console.log(number);
             images = images.splice(0, number);
-            console.log(images.length);
         } else {
             let dogs = await fetchDogs(breedRequest, -difference);
             images.unshift(...dogs);
