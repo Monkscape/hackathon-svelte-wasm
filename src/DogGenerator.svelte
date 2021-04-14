@@ -50,18 +50,18 @@
 </script>
 
 <label>
-    Horizontal
+    Horizontal:
     <input type="checkbox" bind:checked={horizontal}>
 </label>
 
 {#await wasmCompilation then compiled}
     <form>
         <label>
-            Breed
+            <p>Breed</p>
             <input type='text' bind:value={breed} on:change={getNewDogArray}>
         </label>
         <label>
-            Number of Pictures {number}
+            <p>Number of Pictures [{number}]</p>
             <input disabled={!breed} type='range' min=1 max=50 bind:value={number} on:change={getMoreDogs}>
         </label>
     </form>
@@ -81,6 +81,10 @@
 {/each}
 
 <style>
+    p {
+        margin: 0px;
+    }
+
     img {
         width:inherit;
         height: inherit;
