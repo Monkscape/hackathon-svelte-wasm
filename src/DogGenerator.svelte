@@ -26,8 +26,9 @@
             console.log(images.length);
         } else {
             let response = await fetchDogs(breedRequest, -difference);
-            images.push(...response);
-            images = images;
+
+            // images.push(...response);
+            images = [...response, ...images];
         }
     }
 
