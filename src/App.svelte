@@ -1,13 +1,13 @@
 <script>
 	import DogGenerator from "./DogGenerator.svelte";
-	import GameOfLifeText from './GameOfLifeText.svelte';
+	import GameOfLife from './GameOfLife.svelte';
 	import MainPage from './MainPage.svelte';
 
 	let component;
 
 	const hashMap = {
 		'#dogs': DogGenerator,
-		'#gameoflife': GameOfLifeText
+		'#gameoflife': GameOfLife
 	}
 
 	function hashChange() {
@@ -24,7 +24,7 @@
 <nav>
 	<a href="/" class:active={component === MainPage}>Home</a>
 	<a href="/#dogs" class:active={component === DogGenerator}>Dog Generator</a>
-	<a href="/#gameoflife" class:active={component === GameOfLifeText}>Game of Life</a>
+	<a href="/#gameoflife" class:active={component === GameOfLife}>Game of Life</a>
 </nav>
 
 <main>
