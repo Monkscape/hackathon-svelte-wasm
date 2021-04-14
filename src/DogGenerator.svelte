@@ -25,10 +25,12 @@
             images = images.splice(0, number);
             console.log(images.length);
         } else {
-            let response = await fetchDogs(breedRequest, -difference);
-
+            let dogs = await fetchDogs(breedRequest, -difference);
+            dogs.forEach(element => {
+                images = [element, ...images];
+            });
             // images.push(...response);
-            images = [...response, ...images];
+            // images = [...response, ...images];
         }
     }
 
