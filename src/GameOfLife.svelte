@@ -7,10 +7,7 @@
     const DEAD_COLOR = '#FFFFFF';
     const ALIVE_COLOR = '#000000';
 
-    let pre;
-    let play_pause;
     let framesPerSecond;
-    let wasmCompilation;
 
     let universe;
     let width = 64;
@@ -30,7 +27,7 @@
     let lastFrameTimeStamp = performance.now();
 
     onMount(async () => {
-        wasmCompilation = await wasm();
+        let wasmCompilation = await wasm();
         memory = wasmCompilation.memory;
     })
 
@@ -78,12 +75,10 @@
 
     const play = () => {
         createUniverse();
-        play_pause.textContent = "Pause";
         renderLoop();
     };
 
     const pause = () => {
-        play_pause.textContent = "Play";
         cancelAnimationFrame(animationId);
         animationId = null;
     };
@@ -195,21 +190,24 @@
     }
 
 </script>
-<label>
-    Width:
-    <input type='number' bind:value={width}>
-</label>
-<label>
-    Height:
-    <input type='number' bind:value={height}>
-</label>
-<label>
-    Generation Percent {randomnessFactor}%
-    <input type='range' min={1} max={100} bind:value={randomnessFactor}>
-</label>
-<button bind:this={play_pause} on:click={pauseOrPlay}>Play</button>
-<button on:click={resetUniverse}>Reset</button>
-<div bind:this={framesPerSecond}></div>
+
+<form>
+    <label>
+        Width:
+        <input type='number' bind:value={width}>
+    </label>
+    <label>
+        Height:
+        <input type='number' bind:value={height}>
+    </label>
+    <label>
+        Generation Percent {randomnessFactor}%
+        <input type='range' min={1} max={100} bind:value={randomnessFactor}>
+    </label>
+    <button on:click={pauseOrPlay}>{!animationId ? 'Play' : 'Pause'}</button>
+    <button on:click={resetUniverse}>Reset</button>
+</form>
+<div class="fps" bind:this={framesPerSecond}></div>
 <canvas 
     bind:this={canvas} 
     height={canvasHeight} 
@@ -217,4 +215,10 @@
     on:click={addCell}
 >
 </canvas>
-<pre bind:this={pre}></pre>
+
+<style>
+    .fps {
+        white-space: pre;
+        font-family: monospace;
+    }
+</style>
