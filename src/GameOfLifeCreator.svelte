@@ -17,17 +17,23 @@ import FrameRateDisplay from './FrameRateDisplay.svelte';
 
 <form>
     <label>
-        Width:
-        <input type='number' bind:value={width}>
+        <p>Width [{width}]:</p>
+        <input type='range' min={1} max={300} bind:value={width}>
     </label>
     <label>
-        Height:
-        <input type='number' bind:value={height}>
+        <p>Height [{height}]:</p>
+        <input type='range' min={1} max={300} bind:value={height}>
     </label>
     <label>
-        Generation Percent {randomnessFactor}%
+        <p>Generation Percent [{randomnessFactor}%]:</p>
         <input type='range' min={1} max={100} bind:value={randomnessFactor}>
     </label>
 </form>
 <FrameRateDisplay {now} />
 <GameOfLife {width} {height} {randomnessFactor} on:tick={captureFps}/>
+
+<style>
+    input, label, p {
+        margin: 0px;
+    }
+</style>
