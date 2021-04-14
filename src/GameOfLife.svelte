@@ -9,7 +9,9 @@
     export let width = 64;
     export let height = 64;
     export let randomnessFactor = 50;
-    export let CELL_SIZE = 5;
+    export let cellSize = 5;
+
+    console.log(cellSize);
 
     const GRID_COLOR = '#CCCCCC';
     const DEAD_COLOR = '#FFFFFF';
@@ -24,8 +26,8 @@
     let animationId = null;
 
     $: refreshUniverse(width, height, randomnessFactor);
-    $: canvasHeight = (CELL_SIZE + 1) * height + 1;
-    $: canvasWidth = (CELL_SIZE + 1) * width + 1;
+    $: canvasHeight = (cellSize + 1) * height + 1;
+    $: canvasWidth = (cellSize + 1) * width + 1;
 
     onMount(async () => {
         let wasmCompilation = await wasm();
@@ -88,13 +90,13 @@
         ctx.strokeStyle = GRID_COLOR;
 
         for (let i = 0; i <= width; i++) {
-            ctx.moveTo(i * (CELL_SIZE + 1) + 1, 0);
-            ctx.lineTo(i * (CELL_SIZE + 1) + 1, (CELL_SIZE + 1) * height + 1);
+            ctx.moveTo(i * (cellSize + 1) + 1, 0);
+            ctx.lineTo(i * (cellSize + 1) + 1, (cellSize + 1) * height + 1);
         }
 
         for (let j = 0; j <= height; j++) {
-            ctx.moveTo(0, j * (CELL_SIZE + 1) + 1);
-            ctx.lineTo((CELL_SIZE + 1) * width + 1, j * (CELL_SIZE + 1) + 1);
+            ctx.moveTo(0, j * (cellSize + 1) + 1);
+            ctx.lineTo((cellSize + 1) * width + 1, j * (cellSize + 1) + 1);
         }
 
 	    ctx.stroke();
@@ -120,10 +122,10 @@
                 }
 
                 ctx.fillRect(
-                    col * (CELL_SIZE + 1) + 1,
-                    row * (CELL_SIZE + 1) + 1,
-                    CELL_SIZE,
-                    CELL_SIZE
+                    col * (cellSize + 1) + 1,
+                    row * (cellSize + 1) + 1,
+                    cellSize,
+                    cellSize
                 );
             }
         }
@@ -137,10 +139,10 @@
                 }
 
                 ctx.fillRect(
-                    col * (CELL_SIZE + 1) + 1,
-                    row * (CELL_SIZE + 1) + 1,
-                    CELL_SIZE,
-                    CELL_SIZE
+                    col * (cellSize + 1) + 1,
+                    row * (cellSize + 1) + 1,
+                    cellSize,
+                    cellSize
                 );
             }
         }
@@ -157,8 +159,8 @@
         const canvasLeft = (event.clientX - boundingRect.left) * scaleX;
         const canvasTop = (event.clientY - boundingRect.top) * scaleY;
 
-        const row = Math.min(Math.floor(canvasTop / (CELL_SIZE + 1)), height - 1);
-        const col = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), width - 1);
+        const row = Math.min(Math.floor(canvasTop / (cellSize + 1)), height - 1);
+        const col = Math.min(Math.floor(canvasLeft / (cellSize + 1)), width - 1);
 
         console.log('Toggle Cell', row, col);
         universe.toggle_cell(row, col);
@@ -167,14 +169,22 @@
     }
 </script>
 
-<div>
+<div class="buttons">
     <button on:click={pauseOrPlay}>{!animationId ? 'Play' : 'Pause'}</button>
     <button on:click={resetUniverse}>Reset</button>
 </div>
-<canvas 
-    bind:this={canvas} 
-    height={canvasHeight} 
-    width={canvasWidth}
-    on:click={addCell}
->
-</canvas>
+<div class="window">
+    <canvas 
+        bind:this={canvas} 
+        height={canvasHeight} 
+        width={canvasWidth}
+        on:click={addCell}
+    >
+    </canvas>
+</div>
+
+<style>
+    .buttons, canvas, .window {
+        text-align: center;
+    }
+</style>

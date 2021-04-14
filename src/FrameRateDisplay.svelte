@@ -1,7 +1,10 @@
 <script>
     export let now;
     let frames = []
-    let content = '';
+    let fps = 0;
+    let mean;
+    let min;
+    let max;
     let lastFrameTimeStamp = performance.now();
 
     $: updateFrames(now);
@@ -10,40 +13,46 @@
         if (!now) return;
         const delta = now - lastFrameTimeStamp;
         lastFrameTimeStamp = now;
-        const fps = 1 / delta * 1000;
+        const frame = 1 / delta * 1000;
 
         // Save only the latest 100 timings.
-        frames.push(fps);
+        frames.push(frame);
         if (frames.length > 100) {
             frames.shift();
         }
+        fps = Math.round(frame);
 
         // Find the max, min, and mean of our 100 latest timings.
-        let min = Infinity;
-        let max = -Infinity;
+        let newMin = Infinity;
+        let newMax = -Infinity;
         let sum = 0;
         for (let i = 0; i < frames.length; i++) {
             sum += frames[i];
-            min = Math.min(frames[i], min);
-            max = Math.max(frames[i], max);
+            newMin = Math.min(frames[i], newMin);
+            newMax = Math.max(frames[i], newMax);
         }
-        let mean = sum / frames.length;
-
-        // Render the statistics.
-        content = `Frames per Second:
-                latest = ${Math.round(fps)}
-                avg of last 100 = ${Math.round(mean)}
-                min of last 100 = ${Math.round(min)}
-                max of last 100 = ${Math.round(max)}`.trim();
+        mean = Math.round(sum / frames.length);
+        min = Math.round(newMin);
+        max = Math.round(newMax);
     }
 
 </script>
 
-<div class="fps">{content}</div>
+{#if fps > 0}
+<div class="fps">
+    <span>fps: {fps}</span>
+    <span>min: {min}</span>
+    <span>max: {max}</span>
+    <span>average: {mean}</span>
+</div>
+{/if}
+
 
 <style>
     .fps {
         white-space: pre;
 		font-family: monospace;
+        font-size: 1.3em;
+        text-align: center;
     }
 </style>
