@@ -47,12 +47,7 @@
 	a.active {
 	  background-color: yellow;
 	}
-   
-	.icon {
-	  padding-bottom: 6px;
-	  padding-top: 6px;
-	}
-   
+ 
 	main {
 	  padding: var(--space);
 	}

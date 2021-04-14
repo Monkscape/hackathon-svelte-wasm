@@ -4,7 +4,6 @@ import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
-import rust from "@wasm-tool/rollup-plugin-rust";
 import { wasm } from '@rollup/plugin-wasm';
 import copy from 'rollup-plugin-copy';
 
