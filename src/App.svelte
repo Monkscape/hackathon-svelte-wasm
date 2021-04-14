@@ -22,9 +22,9 @@
 <svelte:window on:hashchange={hashChange} />
 
 <nav>
-	<a href="/" class:active={component === MainPage}>Home</a>
-	<a href="/#dogs" class:active={component === DogGenerator}>Dog Generator</a>
-	<a href="/#gameoflife" class:active={component === GameOfLifeCreator}>Game of Life</a>
+	<a href="/" class:active={component === MainPage}>&#127960 Home</a>
+	<a href="/#dogs" class:active={component === DogGenerator}>&#128021 Dog Generator</a>
+	<a href="/#gameoflife" class:active={component === GameOfLifeCreator}>&#127922 Game of Life</a>
 </nav>
 
 <main>
@@ -62,5 +62,6 @@
 	  align-items: center;
 	  background-color: cornflowerblue;
 	  padding: var(--space);
+	  margin: 0;
 	}
 </style>
